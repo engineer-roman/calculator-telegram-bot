@@ -192,7 +192,10 @@ class Calculator:
         for symbol in query:
             if symbol == "(":
                 open_parentheses += 1
-                if open_parentheses > self.parentheses_limit:
+                if (
+                    self.parentheses_limit
+                    and open_parentheses > self.parentheses_limit
+                ):
                     raise errors.IncorrectQuery(
                         f"Max amount of parentheses exceeded: {self.parentheses_limit}"
                     )
