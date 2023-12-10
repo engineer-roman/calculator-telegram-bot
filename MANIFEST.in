@@ -1,0 +1,1 @@
+recursive-include israelit_app/ *.py
