@@ -1,9 +1,12 @@
 from uuid import uuid4
 
-from aiogram.types import Message, InlineQuery, InlineQueryResultArticle, InputTextMessageContent
+from aiogram.types import (InlineQuery, InlineQueryResultArticle,
+                           InputTextMessageContent, Message)
 
 from calculator_bot.config.settings import init_application_settings
-from calculator_bot.libs.const.messages import HELP_MESSAGE, WELCOME_MESSAGE, META_MESSAGE_TEMPLATE
+from calculator_bot.libs.const.messages import (HELP_MESSAGE,
+                                                META_MESSAGE_TEMPLATE,
+                                                WELCOME_MESSAGE)
 from calculator_bot.query_processor import QueryProcessor
 
 app_settings = init_application_settings()

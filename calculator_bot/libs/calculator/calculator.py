@@ -1,8 +1,10 @@
 from asyncio import sleep
 
 from calculator_bot.libs.calculator import errors
-from calculator_bot.libs.calculator.const import CalcActions, CALC_DIGIT_SYMBOLS
-from calculator_bot.libs.calculator.models import CalcQueryDigit, CalcQueryAction
+from calculator_bot.libs.calculator.const import (CALC_DIGIT_SYMBOLS,
+                                                  CalcActions)
+from calculator_bot.libs.calculator.models import (CalcQueryAction,
+                                                   CalcQueryDigit)
 
 
 class Calculator:
@@ -28,7 +30,8 @@ class Calculator:
                 cursor = await self.solve_groups(cursor + 1)
                 query_len = len(self.query)
                 continue
-            elif self.query[cursor] == ")":
+
+            if self.query[cursor] == ")":
                 group_result = str(
                     await self.solve_group(self.query[query_start:cursor])
                 )
@@ -38,6 +41,7 @@ class Calculator:
                     + self.query[cursor + 1:]
                 )
                 return query_start + len(group_result) - 1
+
             cursor += 1
 
         self.query = (
@@ -47,7 +51,7 @@ class Calculator:
         )
         return cursor
 
-    async def solve_group(self, query: str) -> CalcQueryDigit:
+    async def solve_group(self, query: str) -> CalcQueryDigit:  # pylint: disable=R0912  # noqa: C901
         digits = []
         actions = []
         action = digit = ""
@@ -108,8 +112,8 @@ class Calculator:
             used_digits = []
             used_digits_num = 0
 
-            for idx in range(len(digits)):
-                if any((digits[idx].end + 1 == action.start, digits[idx].start - 1 == action.end)):
+            for idx, digit in enumerate(digits):
+                if any((digit.end + 1 == action.start, digit.start - 1 == action.end)):
                     used_digits.append(idx)
                     used_digits_num += 1
 
@@ -130,15 +134,14 @@ class Calculator:
         return CalcQueryDigit(action.callback(*digits), start=digits[0].start, end=digits[-1].end)
 
     @classmethod
-    def store_action(cls, element, next_element, start, end):
+    def store_action(cls, element, next_element, start, end) -> CalcQueryAction | None:
         if not cls.is_action(next_element):
             try:
-                result = CalcQueryAction(element, start, end, CalcActions.PRIORITY_MAPPING.value[element])
-
+                return CalcQueryAction(element, start, end, CalcActions.PRIORITY_MAPPING.value[element])
             except KeyError:
                 raise errors.UnknownQueryElementError(f"Unknown action symbol: {element}")
-            else:
-                return result
+
+        return None
 
     @staticmethod
     def is_action(value: str) -> bool:

@@ -1,7 +1,7 @@
 WELCOME_MESSAGE = "Hi! I'm a calculator bot!"
-HELP_MESSAGE = """I can solve simple math expressions, which consists of numbers, parentheses, and operators: 
+HELP_MESSAGE = """I can solve simple math expressions, which consists of numbers, parentheses, and operators:
 +, -, *, /, //, **
-Example: 2+2*2
+Example: 2 + 2 * 2 - (2 + 2) **2
 
 Also, I can solve expressions in inline mode
 Example: @easycalc_bot 2+2*2

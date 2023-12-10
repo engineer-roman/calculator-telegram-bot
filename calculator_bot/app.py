@@ -1,4 +1,5 @@
 import asyncio
+import sys
 
 import sentry_sdk
 import uvloop
@@ -40,7 +41,7 @@ async def __main() -> bool:
     log.info("Connecting to TG API")
     try:
         await dispatcher.start_polling(bot)
-    except Exception as exc:
+    except Exception as exc:  # pylint: disable=W0703
         log.exception("Polling failed", exc)
         return False
     return True
@@ -57,5 +58,5 @@ def main() -> bool:
 
 if __name__ == "__main__":
     if main():
-        exit(1)
-    exit(0)
+        sys.exit(1)
+    sys.exit(0)

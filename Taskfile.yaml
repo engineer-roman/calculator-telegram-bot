@@ -1,0 +1,51 @@
+version: '3'
+
+silent: true
+
+vars:
+  CLI_BANDIT: bandit
+  CLI_FLAKE8: flake8
+  CLI_ISORT: isort
+  CLI_MYPY: mypy
+  CLI_PYLINT: pylint
+
+tasks:
+
+  flake8:
+    cmds:
+      - echo ">>> [Flake8 - RUNNING]"
+      - "{{.CLI_FLAKE8}} ./calculator_bot"
+      - echo "<<< [Flake8 - OK]"
+
+  isort:
+    cmds:
+      - echo ">>> [ISort - RUNNING]"
+      - "{{.CLI_ISORT}} ./calculator_bot"
+      - echo "<<< [ISort - OK]"
+
+  pylint:
+    cmds:
+      - echo ">>> [PyLint - RUNNING]"
+      - "{{.CLI_PYLINT}} ./calculator_bot"
+      - echo "<<< [PyLint - OK]"
+
+  mypy:
+    cmds:
+      - echo ">>> [MyPy - RUNNING]"
+      - "{{.CLI_MYPY}} ./calculator_bot"
+      - echo "<<< [MyPy - OK]"
+
+  bandit:
+    cmds:
+      - echo ">>> [Bandit - RUNNING]"
+      - "{{.CLI_BANDIT}} -r ."
+      - echo "<<< [Bandit - OK]"
+
+  lint:
+    desc: Run linters
+    cmds:
+      - task: "isort"
+      - task: "flake8"
+      - task: "pylint"
+      - task: "mypy"
+      - task: "bandit"

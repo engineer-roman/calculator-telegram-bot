@@ -1,6 +1,6 @@
-from loguru import logger as log
 from dataclasses import dataclass
 
+from loguru import logger as log
 from sentry_sdk import capture_exception
 
 from calculator_bot.libs.calculator import Calculator, IncorrectQueryError
@@ -20,7 +20,6 @@ class QueryProcessor:
     def __init__(self, parentheses_limit: int) -> None:
         self._parentheses_limit = parentheses_limit
 
-    """Class to process queries"""
     async def process(self, query: str) -> QueryResult:
         if not query:
             result_str = "Waiting for query"
@@ -30,11 +29,11 @@ class QueryProcessor:
         else:
             try:
                 result_str, message, error = await self._process_query(query)
-            except Exception as exc:
+            except Exception as exc:  # pylint: disable=W0703
                 log.exception("Failed to process query", exc_info=exc)
                 capture_exception(exc)
                 result_str = "Result: Error occurred :("
-                message = f"An error occurred while processing the query"
+                message = "An error occurred while processing the query"
                 error = True
 
         return QueryResult(
@@ -54,7 +53,8 @@ class QueryProcessor:
             message = f"{query} = {result_str}"
             error = False
 
-        except (IncorrectQueryError, UnknownQueryElementError):
+        except (IncorrectQueryError, UnknownQueryElementError) as exc:
+            log.error(f"Failed to process query '{query}': {exc.__class__.__name__} - {exc}")
             result_str = "Result: Incorrect query"
             message = f"Incorrect query: {query}"
             error = True
