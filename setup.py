@@ -9,7 +9,7 @@ with open(requirements_file, "r") as f:
 
 setup(
     name="calculator-bot",
-    version="2.0.1",
+    version="2.0.2",
     packages=["calculator_bot"],
     install_requires=requirements,
     entry_points={

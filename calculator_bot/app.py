@@ -17,7 +17,7 @@ from calculator_bot.libs.logging import setup_logger
 def setup_metrics(metrics_port: int | None) -> None:
     if metrics_port:
         log.info(f"Starting metrics server on port {metrics_port}")
-        start_http_server(metrics_port)
+        start_http_server(addr="localhost", port=metrics_port)
 
 
 def setup_sentry(settings: Settings) -> None:
