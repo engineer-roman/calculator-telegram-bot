@@ -1,10 +1,8 @@
 # calculator-telegram-bot
-Project provides simple calculator features wrapped in telegram bot, written in
-Python 3 via asynchronous code.
+Project provides simple calculator features wrapped in telegram bot interface.
 
 ## Configuration
-To configure this application environment variables should be used. For
-Docker container please use file ``./.venv``.
+To configure this application environment variables should be used. Docker-compose expects `.env` file in the root of the project.
 
 ### Available settings
 |Name|Required|Type|Description|

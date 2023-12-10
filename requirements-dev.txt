@@ -1,0 +1,8 @@
+-r requirements.txt
+
+bandit==1.7.6
+coverage==7.3.2
+ipython==8.18.1
+isort==5.13.0
+mypy==1.7.1
+pylint==3.0.2
