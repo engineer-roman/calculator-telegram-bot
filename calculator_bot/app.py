@@ -35,7 +35,7 @@ async def __main() -> bool:
     dispatcher.message.register(entrypoints.ping_cmd, Command("ping"))
     dispatcher.message.register(entrypoints.start_cmd, Command("start"))
     dispatcher.message.register(entrypoints.help_cmd, Command("help"))
-    dispatcher.message.register(entrypoints.help_cmd, Command("help"))
+    dispatcher.message.register(entrypoints.direct_query)
     dispatcher.inline_query.register(entrypoints.inline_query)
 
     log.info("Connecting to TG API")

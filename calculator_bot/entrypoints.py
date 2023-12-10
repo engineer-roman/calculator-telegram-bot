@@ -31,8 +31,8 @@ async def help_cmd(message: Message) -> None:
 
 
 async def direct_query(message: Message) -> None:
-    response = f"{message.text} = {message.text}"
-    await message.reply(response)
+    query_result = await QueryProcessor(app_settings.parentheses_limit).process(message.text)
+    await message.reply(query_result.message)
 
 
 async def inline_query(query: InlineQuery) -> None:
