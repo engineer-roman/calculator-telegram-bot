@@ -6,6 +6,7 @@ from calculator_bot.config.env_loader import load_setting
 @dataclass
 class ApplicationSettings:
     app_type: str
+    metrics_port: int | None
     parentheses_limit: int
     release_stage: str
     version: str
@@ -32,7 +33,8 @@ class SentrySettings:
 def init_application_settings() -> ApplicationSettings:
     return ApplicationSettings(
         app_type=load_setting("APP_TYPE", str, "main"),
-        parentheses_limit=load_setting("PARENTHESES_LIMIT", int, 100),
+        metrics_port=load_setting("APP_METRICS_PORT", int, None),
+        parentheses_limit=load_setting("CALC_PARENTHESES_LIMIT", int, 100),
         release_stage=load_setting("DOPPLER_CONFIG", str, "local"),
         version="2.0.0",
     )

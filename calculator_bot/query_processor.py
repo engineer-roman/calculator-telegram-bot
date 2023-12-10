@@ -1,10 +1,14 @@
 from dataclasses import dataclass
 
 from loguru import logger as log
+from prometheus_client import Counter, Summary
 from sentry_sdk import capture_exception
 
 from calculator_bot.libs.calculator import Calculator, IncorrectQueryError
 from calculator_bot.libs.calculator.errors import UnknownQueryElementError
+
+QUERY_PROCESS_SEC_METRIC = Summary("calc_query_process_seconds", "Time spent calculating query")
+QUERY_COUNT_METRIC = Counter("calc_query", "Number of queries processed", ["error"])
 
 
 @dataclass
@@ -20,6 +24,7 @@ class QueryProcessor:
     def __init__(self, parentheses_limit: int) -> None:
         self._parentheses_limit = parentheses_limit
 
+    @QUERY_PROCESS_SEC_METRIC.time()
     async def process(self, query: str) -> QueryResult:
         if not query:
             result_str = "Waiting for query"
@@ -36,6 +41,7 @@ class QueryProcessor:
                 message = "An error occurred while processing the query"
                 error = True
 
+        QUERY_COUNT_METRIC.labels(error=error).inc()
         return QueryResult(
             query=query,
             result=result_str,

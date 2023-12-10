@@ -6,11 +6,18 @@ import uvloop
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from loguru import logger as log
+from prometheus_client import start_http_server
 
 from calculator_bot import entrypoints
 from calculator_bot.config.settings import init_settings
 from calculator_bot.libs.doppler import set_env_vars
 from calculator_bot.libs.logging import setup_logger
+
+
+def setup_metrics(metrics_port: int | None) -> None:
+    if metrics_port:
+        log.info(f"Starting metrics server on port {metrics_port}")
+        start_http_server(metrics_port)
 
 
 async def __main() -> bool:
@@ -27,6 +34,7 @@ async def __main() -> bool:
         )
 
     setup_logger(settings.logstd)
+    # setup_metrics(settings.application.metrics_port)
     log.info(f"Starting calculator-bot version {app_settings.version} in {app_settings.release_stage} environment")
 
     bot = Bot(token=settings.telegram.bot_api_token)
