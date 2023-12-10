@@ -34,7 +34,7 @@ def init_application_settings() -> ApplicationSettings:
         metrics_port=load_setting("APP_METRICS_PORT", int, None),
         parentheses_limit=load_setting("CALC_PARENTHESES_LIMIT", int, 100),
         release_stage=load_setting("DOPPLER_CONFIG", str, "local"),
-        version="2.0.0",
+        version="2.0.1",
     )
 
 
